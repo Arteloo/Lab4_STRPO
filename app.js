@@ -42,11 +42,33 @@ app.post("/create", urlencodedParser, function (req, res) {
   });
 });
 
-
 //возврат формы для изменения данных
 app.get("/edit", function(req, res){
   res.render("edit.hbs");
 });
+
+//Редактирование данных - получаем id, получаем из БД инфу и отправляем с формой редактирования
+app.get("/edit/:id", function(req, res){
+  const id = req.params.id;
+  connection.query("SELECT * FROM Machines WHERE IDMachine=?", [id], function(err, data) {
+    if(err) return console.log(err);
+     res.render("edit.hbs", {
+        Machines: data[0]
+    });
+  });
+});
+//Отправка редактируемых данных
+app.post("/edit", urlencodedParser, function (req, res) {
+         
+  if(!req.body) return res.sendStatus(400);
+  const name = req.body.MachineName;
+  const id = req.body.IDMachine;
+  connection.query("UPDATE Machines SET MachineName=? WHERE IDMachine=?", [name, id], function(err, data) {
+    if(err) return console.log(err);
+    res.redirect("/");
+  });
+});
+
 app.listen(3000, function(){
   console.log("Сервер ожидает подключения...");
 });
