@@ -28,9 +28,22 @@ app.get("/", function(req, res){
       });
     });
 });
+//возврат формы для добавления данных
 app.get("/create", function(req, res){
   res.render("create.hbs");
 });
+// получаем отправленные данные и добавляем их в БД 
+app.post("/create", urlencodedParser, function (req, res) {
+  if(!req.body) return res.sendStatus(400);
+  const name = req.body.MachineName;
+  connection.query("INSERT INTO Machines (MachineName) VALUES (?)", [name], function(err, data) {
+    if(err) return console.log(err);
+    res.redirect("/");
+  });
+});
+
+
+//возврат формы для изменения данных
 app.get("/edit", function(req, res){
   res.render("edit.hbs");
 });
