@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machines table</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Список металлургических машин</h1>
+    <p><a href="/create">Добавить машину</a></p>
+    <table>
+        <tr><th>ID</th><th>Machine Name</th><th></th></tr>
+        {{#each Machines}}
+            <tr>
+                <td>{{this.IDMachine}}</td>
+                <td>{{this.MachineName}}</td>
+                <td>
+                    <a href="/edit/{{this.id}}">Edit</a>
+                    <form action="delete/{{this.id}}" method="POST" style="display:inline;">
+                        <input type="submit" value="Delete" />
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<html>
