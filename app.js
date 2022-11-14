@@ -59,11 +59,18 @@ app.get("/edit/:id", function(req, res){
 });
 //Отправка редактируемых данных
 app.post("/edit", urlencodedParser, function (req, res) {
-         
   if(!req.body) return res.sendStatus(400);
   const name = req.body.MachineName;
   const id = req.body.IDMachine;
   connection.query("UPDATE Machines SET MachineName=? WHERE IDMachine=?", [name, id], function(err, data) {
+    if(err) return console.log(err);
+    res.redirect("/");
+  });
+});
+//Удаление существующих данных
+app.post("/delete/:id", function(req, res){
+  const id = req.params.id;
+  connection.query("DELETE FROM Machines WHERE IDMachine=?", [id], function(err, data) {
     if(err) return console.log(err);
     res.redirect("/");
   });
