@@ -31,6 +31,9 @@ app.get("/", function(req, res){
 app.get("/create", function(req, res){
   res.render("create.hbs");
 });
+app.get("/edit", function(req, res){
+  res.render("edit.hbs");
+});
 app.listen(3000, function(){
   console.log("Сервер ожидает подключения...");
 });
